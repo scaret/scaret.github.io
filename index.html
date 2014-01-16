@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script src="jc/underscore.js"></script>
     <script src="jc/jquery.min.js"></script>
     <script src="jc/jquery.ui.js"></script>
     <script src="jc/markdown.js"></script>
@@ -29,19 +30,20 @@
     <div id="tabs"><ul id="nav" class="nav nav-tabs darkback"></ul></div>
 
     <script>
-    (function(i){
-      var self = arguments.callee;
-      $.get("mds/" + i + ".md").success(function(md){
-        self(i + 1);
+    !function(i){
+      var pages = [1,2,3,4,5,6];
+      renderTabs = _.after(pages.length,function(){$("#tabs").tabs();});
+      _.each(pages,function(page){
+      $.get("mds/" + page + ".md").success(function(md){
         var preview = markdown.toHTML(md);
-        $('<li><a href="#' + i + '">' + $(preview).first().text() + '</a></li>').appendTo("#nav");
-        $(preview).not(":first").wrapAll('<div id="' + i + '" class="article">').parent().appendTo("#tabs");
-        console.log(i);
-      }).fail(function(){
-        $("#tabs").tabs();
+        $('<li><a href="#' + page + '">' + $(preview).first().text() + '</a></li>').appendTo("#nav");
+        $(preview).not(":first").wrapAll('<div id="' + page + '" class="article">').parent().appendTo("#tabs");
+        renderTabs();
         $("blockquote").addClass("well");
       });
-    })(1);
+    });
+    }();
+
     </script>
   </body>
 </html>
