@@ -31,7 +31,7 @@
 
     <script>
     !function(i){
-      var pages = [1,2,3,4,5,6];
+      var pages = [1,2,3,4,5,6,7];
       renderTabs = _.after(pages.length,function(){$("#tabs").tabs();});
       _.each(pages,function(page){
       $.get("mds/" + page + ".md").success(function(md){
